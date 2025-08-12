@@ -38,6 +38,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                                   HttpServletResponse response, 
                                   FilterChain filterChain) throws ServletException, IOException {
         
+        // 디버그 로그 추가
+        System.out.println("🔍 JwtAuthenticationFilter 실행: " + request.getRequestURI());
+        
         // 1. HTTP 헤더에서 JWT 토큰 추출
         String token = jwtUtil.extractTokenFromRequest(request);
         
@@ -45,11 +48,14 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         if (token != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             
             try {
+                System.out.println("🔑 JWT 토큰 발견, 검증 시작");
+                
                 // 3. 토큰에서 사용자명 추출
                 String username = jwtUtil.getUsernameFromToken(token);
                 
                 // 4. 토큰 유효성 검증
                 if (jwtUtil.validateToken(token, username)) {
+                    System.out.println("✅ JWT 토큰 검증 성공: " + username);
                     
                     // 5. 인증 토큰 생성 (Spring Security의 Authentication 객체)
                     UsernamePasswordAuthenticationToken authToken = 

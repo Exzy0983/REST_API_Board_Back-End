@@ -1,6 +1,5 @@
 package com.example.new_back_end.config;
 
-import com.example.new_back_end.exception.JwtAuthenticationEntryPoint;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,7 +15,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig {
 
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
-    private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
 
     /**
      * Spring Security 필터 체인 설정
@@ -42,10 +40,6 @@ public class SecurityConfig {
                         .requestMatchers("/h2-console/**").permitAll()         // H2 Console 접근 허용 (개발용)
                         .anyRequest().authenticated()                          // 나머지 모든 요청은 JWT 토큰 필요
                 )
-                
-                // JWT 인증 실패 시 처리할 진입점 설정
-                .exceptionHandling(exceptions -> exceptions
-                        .authenticationEntryPoint(jwtAuthenticationEntryPoint))
                 
                 // H2 Console 사용을 위한 헤더 설정 (개발 환경에서만 필요)
                 .headers(headers -> headers.frameOptions().disable());

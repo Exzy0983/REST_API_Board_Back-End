@@ -52,7 +52,6 @@ public class UserService {
 
         return response;
     }
-
     // 로그인 메서드
     public LoginResponseDTO login(LoginRequestDTO loginRequestDTO) {
         // 1. 사용자 존재 여부 확인
@@ -75,4 +74,5 @@ public class UserService {
 
         return response;
     }
+
 }

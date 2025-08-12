@@ -17,8 +17,11 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())             // CSRF 비활성화
                 .formLogin(form -> form.disable())   // 폼 로그인 비활성화
                 .httpBasic(basic -> basic.disable())  // HTTP Basic 인증 비활성화
+                .sessionManagement(session -> session
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS))  // JWT 사용으로 세션 비활성화
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/auth/**").permitAll()           // 인증 API는 모든 사용자 허용
+                        .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()  // Swagger 허용
                         .anyRequest().authenticated()                            // 나머지는 인증 필요
                 );
         return http.build();
